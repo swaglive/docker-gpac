@@ -79,7 +79,7 @@ jobs:
         build-args: |
           version=${{ matrix.version }}
         push: true
-        platforms: ${{ steps.qemu.outputs.platforms }}
+        platforms: ${{ matrix.platforms || env.PLATFORMS || 'linux/amd64' }}
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
         cache-from: type=gha
