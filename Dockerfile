@@ -13,9 +13,6 @@ RUN         apt-get update && \
                 wget \
                 build-essential \
                 pkg-config \
-                g++ \
-                cmake \
-                yasm \
                 zlib1g-dev && \
             wget -O - https://github.com/${repo}/archive/refs/tags/v${version}.tar.gz | tar xz && \
             mv gpac-${version} gpac_public
