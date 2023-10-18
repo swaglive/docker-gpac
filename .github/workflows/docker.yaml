@@ -20,8 +20,12 @@ jobs:
       matrix:
         version:
         - "2.2.1"
+        flavor:
+        - full
+        - minimal
         include:
         - version: "2.2.1"
+          flavor: full
           latest: true
 
     steps:
@@ -71,8 +75,8 @@ jobs:
         flavor: |-
           latest=${{ !!matrix.latest }}
         tags: |-
-          type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
-          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }},enable=${{ matrix.flavor == 'full' }}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}}-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ matrix.flavor != 'full' }}
 
     - name: Build
       uses: docker/build-push-action@v5.0.0
@@ -81,6 +85,7 @@ jobs:
         context: .
         build-args: |
           version=${{ matrix.version }}
+          flavor=${{ matrix.flavor }}
         push: true
         platforms: ${{ matrix.platforms || env.PLATFORMS || 'linux/amd64' }}
         labels: ${{ steps.meta.outputs.labels }}
