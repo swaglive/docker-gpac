@@ -11,6 +11,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    
+    env:
+      PLATFORMS: linux/amd64,linux/arm64/v8
 
     strategy:
       fail-fast: false
