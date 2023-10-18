@@ -57,14 +57,8 @@ RUN         ./configure && \
 
 FROM        ${base} as runtime-full
 
-COPY        --from=build /usr/local/bin /usr/local/bin
-COPY        --from=build /usr/local/include /usr/local/include
-COPY        --from=build /usr/local/lib /usr/local/lib
-COPY        --from=build /usr/local/share /usr/local/share
-
 RUN         apt-get update && \
             apt install -y \
-                pkg-config \
                 zlib1g \
                 libfreetype6 \
                 libjpeg62 \
@@ -87,17 +81,15 @@ RUN         apt-get update && \
 
 FROM        ${base} as runtime-slim
 
-COPY        --from=build /usr/local/bin /usr/local/bin
-COPY        --from=build /usr/local/include /usr/local/include
-COPY        --from=build /usr/local/lib /usr/local/lib
-COPY        --from=build /usr/local/share /usr/local/share
-
-RUN         apt-get update && \
-            apt install -y \
-                pkg-config
-
 ###
 
 FROM        runtime-${flavor}
 
+ENV         LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
+
 ENTRYPOINT  ["gpac"]
+
+COPY        --from=build /usr/local/bin /usr/local/bin
+COPY        --from=build /usr/local/include /usr/local/include
+COPY        --from=build /usr/local/lib /usr/local/lib
+COPY        --from=build /usr/local/share /usr/local/share
