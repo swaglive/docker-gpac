@@ -5,7 +5,7 @@ ARG         flavor=
 
 ###
 
-FROM        ${base} as deps-minimal
+FROM        ${base} as deps-slim
 
 ARG         version=
 ARG         repo=gpac/gpac

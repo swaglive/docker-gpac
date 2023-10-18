@@ -22,7 +22,7 @@ jobs:
         - "2.2.1"
         flavor:
         - full
-        - minimal
+        - slim
         include:
         - version: "2.2.1"
           flavor: full
