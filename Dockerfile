@@ -55,11 +55,49 @@ RUN         ./configure && \
 
 ###
 
-FROM        ${base}
-
-ENTRYPOINT  ["gpac"]
+FROM        ${base} as runtime-full
 
 COPY        --from=build /usr/local/bin /usr/local/bin
 COPY        --from=build /usr/local/include /usr/local/include
 COPY        --from=build /usr/local/lib /usr/local/lib
 COPY        --from=build /usr/local/share /usr/local/share
+
+RUN         apt-get update && \
+            apt install -y \
+                pkg-config \
+                zlib1g \
+                libfreetype6 \
+                libjpeg62 \
+                libmad0 \
+                libfaad2 \
+                libogg0 \
+                libvorbis0a libvorbisenc2 libvorbisfile3 \
+                libtheora0 \
+                liba52-0.7.4 \
+                libavcodec58 \
+                libavformat58 \
+                libavutil56 \
+                libswscale5 \
+                libavdevice58 \
+                libnghttp2-14 \
+                libgl1 \
+                libglu1
+
+###
+
+FROM        ${base} as runtime-slim
+
+COPY        --from=build /usr/local/bin /usr/local/bin
+COPY        --from=build /usr/local/include /usr/local/include
+COPY        --from=build /usr/local/lib /usr/local/lib
+COPY        --from=build /usr/local/share /usr/local/share
+
+RUN         apt-get update && \
+            apt install -y \
+                pkg-config
+
+###
+
+FROM        runtime-${flavor}
+
+ENTRYPOINT  ["gpac"]
