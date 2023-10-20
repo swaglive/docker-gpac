@@ -22,12 +22,12 @@ jobs:
         - ""
         - "2.2.1"
         flavor:
-        - full
+        - ""
         - slim
         include:
         - latest: true
           version: ""
-          flavor: full
+          flavor: ""
           download_url: https://github.com/gpac/gpac/archive/refs/heads/master.tar.gz
 
     steps:
@@ -74,10 +74,13 @@ jobs:
         images: |-
           ${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
           ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
+        flavor: |-
+          latest=${{ !!matrix.latest }}
         tags: |-
           type=raw,value=latest,enable=${{ !!matrix.latest }}
-          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }},enable=${{ !!matrix.version && matrix.flavor == 'full' }}
-          type=semver,pattern={{major}}.{{minor}}.{{patch}}-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ !!matrix.version && matrix.flavor != 'full' }}
+          type=raw,value=${{ matrix.flavor }},enable=${{ !matrix.latest && matrix.flavor }}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }},enable=${{ !!matrix.version && !matrix.flavor }}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}}-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ !!matrix.version && !!matrix.flavor }}
 
     - name: Build
       uses: docker/build-push-action@v5.0.0
@@ -86,7 +89,7 @@ jobs:
         context: .
         build-args: |
           version=${{ matrix.version }}
-          flavor=${{ matrix.flavor }}
+          flavor=${{ matrix.flavor || 'full' }}
           ${{ matrix.download_url && format('download_file={0}', matrix.download_url) }}
         push: true
         platforms: ${{ matrix.platforms || env.PLATFORMS || 'linux/amd64' }}
