@@ -25,10 +25,11 @@ jobs:
         - ""
         - slim
         include:
+        - version: ""
+          download_url: https://github.com/gpac/gpac/archive/refs/heads/master.tar.gz
         - latest: true
           version: ""
           flavor: ""
-          download_url: https://github.com/gpac/gpac/archive/refs/heads/master.tar.gz
 
     steps:
     - name: Checkout
