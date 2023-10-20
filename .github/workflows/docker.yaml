@@ -77,8 +77,8 @@ jobs:
         flavor: |-
           latest=${{ !!matrix.latest }}
         tags: |-
-          type=raw,value=latest,enable=${{ !!matrix.latest }}
-          type=raw,value=${{ matrix.flavor }},enable=${{ !matrix.latest && !!matrix.flavor }}
+          type=raw,value=latest,enable=${{ !matrix.version && !matrix.flavor }}
+          type=raw,value=${{ matrix.flavor }},enable=${{ !matrix.version && !!matrix.flavor }}
           type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }},enable=${{ !!matrix.version && !matrix.flavor }}
           type=semver,pattern={{major}}.{{minor}}.{{patch}}-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ !!matrix.version && !!matrix.flavor }}
 
