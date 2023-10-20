@@ -5,8 +5,9 @@ ARG         flavor=
 
 FROM        ${base} as deps-slim
 
-ARG         version=
 ARG         repo=gpac/gpac
+ARG         version=
+ARG         download_url=${version:+https://github.com/${repo}/archive/refs/tags/v${version}.tar.gz}
 
 RUN         apt-get update && \
             apt install -y \
@@ -14,8 +15,8 @@ RUN         apt-get update && \
                 build-essential \
                 pkg-config \
                 zlib1g-dev && \
-            wget -O - https://github.com/${repo}/archive/refs/tags/v${version}.tar.gz | tar xz && \
-            mv gpac-${version} gpac_public
+            mkdir -p gpac_public && \
+            wget -O - ${download_url} | tar xz --strip-components 1 -C gpac_public
 
 ###
 

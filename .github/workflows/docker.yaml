@@ -19,14 +19,16 @@ jobs:
       fail-fast: false
       matrix:
         version:
+        - ""
         - "2.2.1"
         flavor:
         - full
         - slim
         include:
-        - version: "2.2.1"
+        - latest: true
+          version: ""
           flavor: full
-          latest: true
+          download_url: https://github.com/gpac/gpac/archive/refs/heads/master.tar.gz
 
     steps:
     - name: Checkout
@@ -75,8 +77,8 @@ jobs:
         flavor: |-
           latest=${{ !!matrix.latest }}
         tags: |-
-          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }},enable=${{ matrix.flavor == 'full' }}
-          type=semver,pattern={{major}}.{{minor}}.{{patch}}-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ matrix.flavor != 'full' }}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }},enable=${{ matrix.version && matrix.flavor == 'full' }}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}}-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ matrix.version && matrix.flavor != 'full' }}
 
     - name: Build
       uses: docker/build-push-action@v5.0.0
@@ -86,6 +88,7 @@ jobs:
         build-args: |
           version=${{ matrix.version }}
           flavor=${{ matrix.flavor }}
+          ${{ matrix.download_url && format('download_file={0}', matrix.download_url) }}
         push: true
         platforms: ${{ matrix.platforms || env.PLATFORMS || 'linux/amd64' }}
         labels: ${{ steps.meta.outputs.labels }}
