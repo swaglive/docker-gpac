@@ -74,8 +74,6 @@ jobs:
         images: |-
           ${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
           ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
-        flavor: |-
-          latest=${{ !!matrix.latest }}
         tags: |-
           type=raw,value=latest,enable=${{ !!matrix.latest }}
           type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }},enable=${{ !!matrix.version && matrix.flavor == 'full' }}
