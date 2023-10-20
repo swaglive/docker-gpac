@@ -3,8 +3,6 @@ ARG         flavor=
 
 ###
 
-###
-
 FROM        ${base} as deps-slim
 
 ARG         version=
