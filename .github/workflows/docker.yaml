@@ -90,7 +90,7 @@ jobs:
         build-args: |
           version=${{ matrix.version }}
           flavor=${{ matrix.flavor || 'full' }}
-          ${{ matrix.download_url && format('download_file={0}', matrix.download_url) }}
+          ${{ matrix.download_url && format('download_url={0}', matrix.download_url) }}
         push: true
         platforms: ${{ matrix.platforms || env.PLATFORMS || 'linux/amd64' }}
         labels: ${{ steps.meta.outputs.labels }}
