@@ -22,8 +22,9 @@ RUN         apt-get update && \
 
 FROM        ${base} as deps-full
 
-ARG         version=
 ARG         repo=gpac/gpac
+ARG         version=
+ARG         download_url=${version:+https://github.com/${repo}/archive/refs/tags/v${version}.tar.gz}
 
 RUN         apt-get update && \
             apt install -y \
@@ -35,8 +36,8 @@ RUN         apt-get update && \
                 cmake \
                 yasm \
                 zlib1g-dev libfreetype6-dev libjpeg62-dev libpng-dev libmad0-dev libfaad-dev libogg-dev libvorbis-dev libtheora-dev liba52-0.7.4-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavdevice-dev libnghttp2-dev libopenjp2-7-dev libcaca-dev libxv-dev x11proto-video-dev libgl1-mesa-dev libglu1-mesa-dev x11proto-gl-dev libxvidcore-dev libssl-dev libjack-dev libasound2-dev libpulse-dev libsdl2-dev dvb-apps mesa-utils && \
-            wget -O - https://github.com/${repo}/archive/refs/tags/v${version}.tar.gz | tar xz && \
-            mv gpac-${version} gpac_public && \
+            mkdir -p gpac_public && \
+            wget -O - ${download_url} | tar xz --strip-components 1 -C gpac_public && \
             git clone --depth=1 https://github.com/gpac/deps_unix && \
             cd deps_unix && \
             git submodule update --depth=1 --init --recursive --force --checkout && \
