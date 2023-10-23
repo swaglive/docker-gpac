@@ -28,36 +28,29 @@ ARG         download_url=${version:+https://github.com/${repo}/archive/refs/tags
 
 RUN         apt-get update && \
             apt install -y \
-                wget \
                 build-essential \
-                pkg-config \
-                g++ \
-                git \
-                cmake \
-                yasm \
                 cmake \
                 dvb-apps \
-                gcc \
                 g++ \
+                gcc \
                 git \
-                make \
-                mesa-utils \
-                pkg-config \
-                scons \
-                yasm \
                 liba52-0.7.4-dev \
                 libasound2-dev \
                 libavcodec-dev \
                 libavdevice-dev \
                 libavformat-dev \
                 libavutil-dev \
+                libcaca-dev \
                 libfaad-dev \
                 libfreetype6-dev \
                 libgl1-mesa-dev \
+                libglu1-mesa-dev \
                 libjack-dev \
                 libjpeg62-dev \
                 libmad0-dev \
+                libnghttp2-dev \
                 libogg-dev \
+                libopenjp2-7-dev \
                 libpng-dev \
                 libpulse-dev \
                 libsdl2-dev \
@@ -67,8 +60,14 @@ RUN         apt-get update && \
                 libvorbis-dev \
                 libxv-dev \
                 libxvidcore-dev \
+                make \
+                mesa-utils \
+                pkg-config \
+                scons \
+                wget \
                 x11proto-gl-dev \
                 x11proto-video-dev \
+                yasm \
                 zlib1g-dev && \
             mkdir -p gpac_public && \
             wget -O - ${download_url} | tar xz --strip-components 1 -C gpac_public && \
@@ -93,23 +92,6 @@ FROM        ${base} as runtime-full
 
 RUN         apt-get update && \
             apt install -y \
-                zlib1g \
-                libfreetype6 \
-                libjpeg62 \
-                libmad0 \
-                libfaad2 \
-                libogg0 \
-                libvorbis0a libvorbisenc2 libvorbisfile3 \
-                libtheora0 \
-                liba52-0.7.4 \
-                libavcodec58 \
-                libavformat58 \
-                libavutil56 \
-                libswscale5 \
-                libavdevice58 \
-                libnghttp2-14 \
-                libgl1 \
-                libglu1 \
                 liba52-0.7.4 \
                 libasound2 \
                 libavcodec58 \
@@ -118,10 +100,13 @@ RUN         apt-get update && \
                 libavutil56 \
                 libfaad2 \
                 libfreetype6 \
+                libgl1 \
+                libglu1 \
                 libglu1-mesa \
                 libjack0 \
                 libjpeg62 \
                 libmad0 \
+                libnghttp2-14 \
                 libogg0 \
                 libpng16-16 \
                 libpulse0 \
