@@ -152,3 +152,5 @@ COPY        --from=build /usr/local/bin /usr/local/bin
 COPY        --from=build /usr/local/include /usr/local/include
 COPY        --from=build /usr/local/lib /usr/local/lib
 COPY        --from=build /usr/local/share /usr/local/share
+
+RUN         gpac -h
