@@ -35,7 +35,41 @@ RUN         apt-get update && \
                 git \
                 cmake \
                 yasm \
-                zlib1g-dev libfreetype6-dev libjpeg62-dev libpng-dev libmad0-dev libfaad-dev libogg-dev libvorbis-dev libtheora-dev liba52-0.7.4-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavdevice-dev libnghttp2-dev libopenjp2-7-dev libcaca-dev libxv-dev x11proto-video-dev libgl1-mesa-dev libglu1-mesa-dev x11proto-gl-dev libxvidcore-dev libssl-dev libjack-dev libasound2-dev libpulse-dev libsdl2-dev dvb-apps mesa-utils && \
+                cmake \
+                dvb-apps \
+                gcc \
+                g++ \
+                git \
+                make \
+                mesa-utils \
+                pkg-config \
+                scons \
+                yasm \
+                liba52-0.7.4-dev \
+                libasound2-dev \
+                libavcodec-dev \
+                libavdevice-dev \
+                libavformat-dev \
+                libavutil-dev \
+                libfaad-dev \
+                libfreetype6-dev \
+                libgl1-mesa-dev \
+                libjack-dev \
+                libjpeg62-dev \
+                libmad0-dev \
+                libogg-dev \
+                libpng-dev \
+                libpulse-dev \
+                libsdl2-dev \
+                libssl-dev \
+                libswscale-dev \
+                libtheora-dev \
+                libvorbis-dev \
+                libxv-dev \
+                libxvidcore-dev \
+                x11proto-gl-dev \
+                x11proto-video-dev \
+                zlib1g-dev && \
             mkdir -p gpac_public && \
             wget -O - ${download_url} | tar xz --strip-components 1 -C gpac_public && \
             git clone --depth=1 https://github.com/gpac/deps_unix && \
@@ -75,7 +109,32 @@ RUN         apt-get update && \
                 libavdevice58 \
                 libnghttp2-14 \
                 libgl1 \
-                libglu1
+                libglu1 \
+                liba52-0.7.4 \
+                libasound2 \
+                libavcodec58 \
+                libavdevice58 \
+                libavformat58 \
+                libavutil56 \
+                libfaad2 \
+                libfreetype6 \
+                libglu1-mesa \
+                libjack0 \
+                libjpeg62 \
+                libmad0 \
+                libogg0 \
+                libpng16-16 \
+                libpulse0 \
+                libsdl2-2.0-0 \
+                libssl3 \
+                libswscale5 \
+                libtheora0 \
+                libvorbis0a \
+                libvorbisenc2 \
+                libvorbisfile3 \
+                libxv1 \
+                libxvidcore4 \
+                zlib1g
 
 ###
 
