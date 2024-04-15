@@ -88,7 +88,7 @@ jobs:
           ${{ matrix.download_url && format('download_url={0}', matrix.download_url) }}
           MAKEFLAGS=-j${{ steps.config.outputs.NPROC }}
         push: true
-        platforms: ${{ matrix.platforms || env.PLATFORMS || 'linux/amd64' }}
+        platforms: ${{ env.PLATFORMS }}
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
         annotations: ${{ steps.meta.outputs.annotations }}
