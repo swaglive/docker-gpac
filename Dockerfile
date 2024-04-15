@@ -1,26 +1,8 @@
 ARG         base=ubuntu:22.04
-ARG         flavor=
 
 ###
 
-FROM        ${base} as deps-slim
-
-ARG         repo=gpac/gpac
-ARG         version=
-ARG         download_url=${version:+https://github.com/${repo}/archive/refs/tags/v${version}.tar.gz}
-
-RUN         apt-get update && \
-            apt install -y \
-                wget \
-                build-essential \
-                pkg-config \
-                zlib1g-dev && \
-            mkdir -p gpac_public && \
-            wget -O - ${download_url} | tar xz --strip-components 1 -C gpac_public
-
-###
-
-FROM        ${base} as deps-full
+FROM        ${base} as build
 
 ARG         repo=gpac/gpac
 ARG         version=
@@ -76,10 +58,6 @@ RUN         apt-get update && \
             git submodule update --depth=1 --init --recursive --force --checkout && \
             ./build_all.sh ${TARGETARCH}
 
-###
-
-FROM        deps-${flavor} as build
-
 WORKDIR     gpac_public
 
 RUN         ./configure && \
@@ -88,7 +66,11 @@ RUN         ./configure && \
 
 ###
 
-FROM        ${base} as runtime-full
+FROM        ${base}
+
+ENV         LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
+
+ENTRYPOINT  ["gpac"]
 
 RUN         apt-get update && \
             apt install -y \
@@ -120,18 +102,6 @@ RUN         apt-get update && \
                 libxv1 \
                 libxvidcore4 \
                 zlib1g
-
-###
-
-FROM        ${base} as runtime-slim
-
-###
-
-FROM        runtime-${flavor}
-
-ENV         LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
-
-ENTRYPOINT  ["gpac"]
 
 COPY        --from=build /usr/local/bin /usr/local/bin
 COPY        --from=build /usr/local/include /usr/local/include
