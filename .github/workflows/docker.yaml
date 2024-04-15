@@ -19,13 +19,12 @@ jobs:
       fail-fast: false
       matrix:
         version:
-        - ""
+        - "latest"
         - "2.2.1"
         include:
-        - version: ""
+        - version: "latest"
           download_url: https://github.com/gpac/gpac/archive/7a3eca90b5e2267b9d8f898415553f80eb9727b9.tar.gz
-        - latest: true
-          version: ""
+          latest: true
 
     steps:
     - name: Checkout
@@ -74,9 +73,9 @@ jobs:
         flavor: |-
           latest=${{ !!matrix.latest }}
         tags: |-
-          type=raw,value=latest,enable=${{ !matrix.version }}
-          type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }},enable=${{ !!matrix.version }}
-          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }},enable=${{ !!matrix.version }}
+          type=raw,value=latest,enable=${{ matrix.version == 'latest' }}
+          type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }},enable=${{ matrix.version != 'latest' }}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }},enable=${{ matrix.version != 'latest' }}
 
     - name: Build
       uses: docker/build-push-action@v5
