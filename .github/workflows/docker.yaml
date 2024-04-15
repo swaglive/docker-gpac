@@ -23,7 +23,7 @@ jobs:
         - "2.2.1"
         include:
         - version: ""
-          download_url: https://github.com/gpac/gpac/archive/refs/heads/master.tar.gz
+          download_url: https://github.com/gpac/gpac/archive/7a3eca90b5e2267b9d8f898415553f80eb9727b9.tar.gz
         - latest: true
           version: ""
 
