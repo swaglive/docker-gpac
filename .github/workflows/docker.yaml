@@ -86,6 +86,7 @@ jobs:
         build-args: |
           version=${{ matrix.version }}
           ${{ matrix.download_url && format('download_url={0}', matrix.download_url) }}
+          MAKEFLAGS=-j${{ steps.config.outputs.NPROC }}
         push: true
         platforms: ${{ matrix.platforms || env.PLATFORMS || 'linux/amd64' }}
         labels: ${{ steps.meta.outputs.labels }}

@@ -7,6 +7,9 @@ FROM        ${base} as build
 ARG         repo=gpac/gpac
 ARG         version=
 ARG         download_url=${version:+https://github.com/${repo}/archive/refs/tags/v${version}.tar.gz}
+ARG         MAKEFLAGS
+
+ENV         MAKEFLAGS=${MAKEFLAGS}
 
 RUN         apt-get update && \
             apt install -y \
