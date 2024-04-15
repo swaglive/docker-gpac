@@ -84,7 +84,7 @@ jobs:
           type=semver,pattern={{major}}.{{minor}}.{{patch}}-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ !!matrix.version && !!matrix.flavor }}
 
     - name: Build
-      uses: docker/build-push-action@v5.1.0
+      uses: docker/build-push-action@v5.3.0
       id: build
       with:
         context: .
