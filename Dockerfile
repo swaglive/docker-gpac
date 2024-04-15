@@ -64,7 +64,7 @@ RUN         apt-get update && \
 WORKDIR     gpac_public
 
 RUN         ./configure && \
-            make -j$(nproc) && \
+            make && \
             make install
 
 ###
